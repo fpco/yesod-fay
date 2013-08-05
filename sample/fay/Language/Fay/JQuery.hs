@@ -6,7 +6,7 @@
 -- <https://github.com/faylang/fay-jquery/blob/master/Language/Fay/JQuery.hs>
 module Language.Fay.JQuery  where
 
-import Language.Fay.FFI
+import Fay.FFI
 import Language.Fay.Yesod
 
 data JQuery

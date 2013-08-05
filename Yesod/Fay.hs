@@ -100,7 +100,7 @@ import           Fay.Types                  (CompileConfig(..),
                                              configDirectoryIncludes,
                                              configTypecheck,
                                              configExportRuntime,
-                                             configNaked, CompileError)
+                                             CompileError)
 import           Language.Fay.Yesod         (Returns (Returns))
 import           Language.Haskell.TH.Syntax (Exp (LitE), Lit (StringL),
                                              Q,
@@ -312,7 +312,6 @@ fayFileProd settings = do
     qRunIO writeYesodFay
     eres <- qRunIO $ compileFayFile fp config
         { configExportRuntime = exportRuntime
-        , configNaked = not exportRuntime
         }
     case eres of
         Left e -> error $ "Unable to compile Fay module \"" ++ name ++ "\": " ++ show e
@@ -361,7 +360,6 @@ fayFileReload settings = do
         liftIO (compileFayFile (mkfp name) config
                 { configTypecheck = False
                 , configExportRuntime = exportRuntime
-                , configNaked = not exportRuntime
                 })
                 >>= \eres -> do
         (case eres of

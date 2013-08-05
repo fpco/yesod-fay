@@ -7,7 +7,7 @@ import Data.Data
 #ifdef FAY
 import FFI
 #else
-import Language.Fay.FFI
+import Fay.FFI
 #endif
 
 data Command = RollDie (Returns Text)

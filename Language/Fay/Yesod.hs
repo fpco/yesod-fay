@@ -9,7 +9,7 @@ import           Prelude
 #ifdef FAY
 import           FFI
 #else
-import           Language.Fay.FFI
+import           Fay.FFI
 #endif
 import           Data.Data
 
