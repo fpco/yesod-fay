@@ -116,7 +116,7 @@ import           Yesod.Fay.Data
 jsMainCall :: Bool -> String -> Builder
 jsMainCall False _ = mempty
 jsMainCall True mn' =
-    "Fay$$_(" <> mn <> "$main);"
+    "Fay$$_(" <> mn <> ".main);"
   where
     mn = fromText $ T.pack mn'
 
