@@ -207,7 +207,7 @@ postFayCommandR =
                     Nothing -> error $ "Unable to parse input: " ++ show txt
                     Just cmd -> f go cmd
       where
-        go Returns = jsonToRepJson . showToFay
+        go Returns = returnJson . showToFay
 
 langYesodFay :: String
 langYesodFay = $(qRunIO $ fmap (LitE . StringL . unpack) $ readTextFile "Language/Fay/Yesod.hs")
