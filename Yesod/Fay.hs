@@ -94,7 +94,7 @@ import           Data.Data                  (Data)
 import           Data.Default               (def)
 #endif
 import           Data.Digest.Pure.MD5       (md5)
-import           Data.List                  (isPrefixOf)
+import           Data.List                  (isPrefixOf, isInfixOf)
 import           Data.Maybe                 (isNothing)
 import           Data.Monoid                ((<>), mempty)
 import           Data.Text                  (pack, unpack)
@@ -140,7 +140,7 @@ import           Data.ByteString.Unsafe (unsafePackAddressLen)
 import           Control.Exception (IOException,catch)
 import           Prelude hiding (catch)
 import           System.Directory
-import           System.Environment         (getEnvironment)
+import           System.Environment         (lookupEnv)
 import           Text.Julius                (Javascript (Javascript), julius)
 import           Yesod.Core
 import           Yesod.Fay.Data
@@ -229,7 +229,7 @@ yesodFaySettings moduleName = YesodFaySettings
 
 -- | Read runtime from default Fay config.
 getRuntime :: IO L.ByteString
-getRuntime = readConfigRuntime defaultConfig >>= return . LC.pack
+getRuntime = readConfigRuntime config >>= return . LC.pack
 
 updateRuntime :: FilePath -> IO ()
 updateRuntime fp = getRuntime >>= \js ->
@@ -318,9 +318,13 @@ compileFayFile fp conf = do
   case result of
     Right cache -> return (Right cache)
     Left refreshTo -> do
-      packageConf <- fmap (lookup "HASKELL_PACKAGE_SANDBOX") getEnvironment
-      result <- compile conf {configPackageConf = packageConf}
-                        fp
+      sandboxPackageConf <- lookupEnv "HASKELL_PACKAGE_SANDBOX"
+      let packageConf = case sandboxPackageConf of
+            Nothing -> Nothing
+            Just sandbox -> if isInfixOf ".stack" sandbox
+              then Nothing
+              else sandboxPackageConf
+      result <- compile (conf {configPackageConf = packageConf}) fp
       case result of
         Left e -> return (Left e)
         Right (sourceAndFiles -> (source',files)) -> do

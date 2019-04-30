@@ -1,5 +1,5 @@
 name:                yesod-fay
-version:             0.9.0
+version:             0.10.0
 synopsis:            Utilities for using the Fay Haskell-to-JS compiler with Yesod.
 description:         For initial discussion, see <http://www.yesodweb.com/blog/2012/10/yesod-fay-js>. This is a work-in-progress.
 homepage:            https://github.com/fpco/yesod-fay
@@ -17,7 +17,7 @@ library
                        Fay.Yesod
   other-modules:       Yesod.Fay.Data
   build-depends:       base >= 4 && < 5
-                     , fay >= 0.21.2.1
+                     , fay >= 0.24
                      , fay-dom >= 0.5
                      , transformers >= 0.2
                      , aeson >= 0.6

@@ -6,3 +6,4 @@ cabal-dev
 *.chs.h
 *.swp
 .stack-work
+dist-newstyle
